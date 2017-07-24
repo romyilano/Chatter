@@ -34,7 +34,7 @@ import RealmSwift
 class FeedTableViewController: UITableViewController {
     
     private var dataController: DataController!
-    fileprivate var messages = [Message]()
+    fileprivate var messages: Results<Message>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
