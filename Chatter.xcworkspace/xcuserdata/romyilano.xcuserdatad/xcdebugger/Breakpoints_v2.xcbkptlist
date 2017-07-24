@@ -6,7 +6,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chatter/Models/User.swift"
@@ -17,6 +17,38 @@
             endingLineNumber = "65"
             landmarkName = "defaultUser(in:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Chatter.User.defaultUser (in : RealmSwift.Realm) -&gt; Chatter.User"
+                  moduleName = "Chatter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/romyilano/Documents/2017-07/rayW/002-Realm-DefiningObjects-Starter%20copy%202/Chatter/Models/User.swift"
+                  timestampString = "522561216.408819"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "27">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Chatter.User.(defaultUser (in : RealmSwift.Realm) -&gt; Chatter.User).(implicit closure #1)"
+                  moduleName = "Chatter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/romyilano/Documents/2017-07/rayW/002-Realm-DefiningObjects-Starter%20copy%202/Chatter/Models/User.swift"
+                  timestampString = "522561216.430034"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
