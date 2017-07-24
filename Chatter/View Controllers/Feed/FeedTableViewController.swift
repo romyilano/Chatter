@@ -47,7 +47,17 @@ class FeedTableViewController: UITableViewController {
         messages = User.defaultUser(in: realm).messages
         
         messagesToken = messages.addNotificationBlock { [weak self] changes in
+            guard let tableView = self?.tableView else { return }
             
+            switch changes {
+            case .initial:
+                tableView.reloadData()
+            case .update(_,  let deletions, let insertions, let modifications):
+                tableView.applyChanges(deletions: deletions, insertions: insertions, updates: modifications)
+            case .error: break
+            }
+            
+            self?.title = "Feed (\(self?.messages.count ?? 0))"
         }
         
         dataController = DataController(api: StubbedChatterAPI())
