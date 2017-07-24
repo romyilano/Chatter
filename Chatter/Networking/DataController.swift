@@ -32,61 +32,76 @@ import Foundation
 import RealmSwift
 
 class DataController {
-
-  private let api: ChatterAPI
-
-  init(api: ChatterAPI) {
-    self.api = api
-  }
-
-  private var timer: Timer?
-
-  // MARK: - fetch new messages
-
-  func startFetchingMessages() {
-    timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(fetch), userInfo: nil, repeats: true)
-    timer!.fire()
-  }
-
-  func stopFetchingMessages() {
-    timer?.invalidate()
-  }
-
-  @objc fileprivate func fetch() {
-
-    api.getMessages { (jsonObjects) in
-        let newMessages = jsonObjects.map { object in
-            return Message(value: object)
-        }
+    
+    private let api: ChatterAPI
+    
+    init(api: ChatterAPI) {
+        self.api = api
+    }
+    
+    private var timer: Timer?
+    
+    // MARK: - fetch new messages
+    
+    func startFetchingMessages() {
+        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(fetch), userInfo: nil, repeats: true)
+        timer!.fire()
+    }
+    
+    func stopFetchingMessages() {
+        timer?.invalidate()
+    }
+    
+    @objc fileprivate func fetch() {
         
-        do {
-            let realm = try Realm()
+        api.getMessages { (jsonObjects) in
+            let newMessages = jsonObjects.map { object in
+                return Message(value: object)
+            }
+            
             do {
-                try realm.write {
-                    realm.add(newMessages)
+                let realm = try Realm()
+                do {
+                    try realm.write {
+                        realm.add(newMessages)
+                    }
+                } catch {
+                    print("\(error)")
                 }
             } catch {
                 print("\(error)")
             }
+            
+        }
+    }
+    
+    // MARK: - post new message
+    
+    func postMessage(_ message: String) {
+        
+        
+        /* let newId = new.id
+         api.postMessage(new, completion: {[weak self] _ in
+         self?.didSentMessage(id: newId)
+         }) */
+        do {
+            let realm = try Realm()
+            let user = User.defaultUser(in: realm)
         } catch {
             print("\(error)")
         }
-     
+        
+        let new = Message(user: user, message: message)
+        do {
+            try realm.write {
+                realm.adde(new)
+            }
+        } catch {
+            print("\(error)")
+        }
     }
-  }
+}
 
-  // MARK: - post new message
-
-  func postMessage(_ message: String) {
-
-
-    /* let newId = new.id
-     api.postMessage(new, completion: {[weak self] _ in
-     self?.didSentMessage(id: newId)
-     }) */
-  }
-
-  private func didSentMessage(id: String) {
-
-  }
+private func didSentMessage(id: String) {
+    
 }
