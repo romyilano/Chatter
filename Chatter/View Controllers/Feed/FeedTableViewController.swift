@@ -53,6 +53,12 @@ class FeedTableViewController: UITableViewController {
         dataController.startFetchingMessages()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        refresh()
+    }
+    
     @IBAction func refresh() {
         tableView.reloadData()
     }
