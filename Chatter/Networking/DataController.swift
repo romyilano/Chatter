@@ -53,7 +53,6 @@ class DataController {
     }
     
     @objc fileprivate func fetch() {
-        
         api.getMessages { (jsonObjects) in
             let newMessages = jsonObjects.map { object in
                 return Message(value: object)
@@ -61,9 +60,13 @@ class DataController {
             
             do {
                 let realm = try Realm()
+                let me = User.defaultUser(in: realm)
+                
                 do {
                     try realm.write {
-                        realm.add(newMessages)
+                        for message in newMessages {
+                            me.messages.insert(message, at: 0)
+                        }
                     }
                 } catch {
                     print("\(error)")
@@ -71,26 +74,26 @@ class DataController {
             } catch {
                 print("\(error)")
             }
-            
         }
     }
     
     // MARK: - post new message
     
     func postMessage(_ message: String) {
-        
-        /* let newId = new.id
-         api.postMessage(new, completion: {[weak self] _ in
-         self?.didSentMessage(id: newId)
-         }) */
+
         do {
             let realm = try Realm()
             let user = User.defaultUser(in: realm)
             let new = Message(user: user, message: message)
             do {
                 try realm.write {
-                    realm.add(new)
+                    user.outgoing.append(new)
                 }
+                
+                let newId = new.id
+                api.postMessage(new, completion: { [weak self] _ in
+                    self?.didSentMessage(id: newId)
+                })
             } catch {
                 print("\(error)")
             }
@@ -98,8 +101,25 @@ class DataController {
             print("\(error)")
         }
     }
+    
+    private func didSentMessage(id: String) {
+        guard let realm = try? Realm() else { return }
+        
+        let user = User.defaultUser(in: realm)
+        
+        if let sentMessage = realm.object(ofType: Message.self, forPrimaryKey: id),
+            let index = user.outgoing.index(of: sentMessage) {
+            do {
+                try realm.write {
+                    user.outgoing.remove(objectAtIndex: index)
+                    user.messages.insert(sentMessage, at: 0)
+                    user.sent += 1
+                }
+            } catch {
+                print("\(error)")
+            }
+        }
+    }
+
 }
 
-private func didSentMessage(id: String) {
-    
-}

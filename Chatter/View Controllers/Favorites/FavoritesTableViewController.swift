@@ -40,9 +40,9 @@ class FavoritesTableViewController: UITableViewController {
         
         do {
             let realm = try Realm()
-            messages = realm.objects(Message.self)
-                .filter("isFavorite = true")
-                .sorted(byKeyPath: "timeStamp", ascending: false)
+            let user = User.defaultUser(in: realm)
+            
+            messages = user.messages.filter("isFavorite = true")
         } catch {
             print("\(error)")
         }
