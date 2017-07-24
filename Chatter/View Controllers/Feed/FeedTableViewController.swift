@@ -42,10 +42,13 @@ class FeedTableViewController: UITableViewController {
         do {
             let realm = try Realm()
             User.defaultUser(in: realm)
+            
+            messages = realm.objects(Message.self)
+                .sorted(byKeyPath: "timeStamp", ascending: false)
+            
         } catch {
             print("\(error)")
         }
-        
         dataController = DataController(api: StubbedChatterAPI())
         dataController.startFetchingMessages()
     }
