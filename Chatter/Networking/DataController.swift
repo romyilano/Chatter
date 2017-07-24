@@ -79,7 +79,6 @@ class DataController {
     
     func postMessage(_ message: String) {
         
-        
         /* let newId = new.id
          api.postMessage(new, completion: {[weak self] _ in
          self?.didSentMessage(id: newId)

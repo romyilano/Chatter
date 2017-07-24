@@ -33,22 +33,24 @@ import RealmSwift
 import Kingfisher
 
 class ProfileViewController: UIViewController {
-
-  @IBOutlet weak var statsLabel: UILabel!
-  @IBOutlet weak var photo: UIImageView!
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    photo.kf.setImage(with: imageUrlForName("me"))
-  }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    updateUI(messageCount: 0)
-  }
-
-  private func updateUI(messageCount: Int) {
-    statsLabel.text = "\(messageCount) sent messages"
-  }
+    
+    @IBOutlet weak var statsLabel: UILabel!
+    @IBOutlet weak var photo: UIImageView!
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        photo.kf.setImage(with: imageUrlForName("me"))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI(messageCount: 0)
+    }
+    
+    private func updateUI(messageCount: Int) {
+        statsLabel.text = "\(messageCount) sent messages"
+    }
 }
