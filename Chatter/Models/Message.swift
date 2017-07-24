@@ -32,20 +32,40 @@ import Foundation
 import RealmSwift
 
 class Message: Object {
-
-  // MARK: - Init
-
-
-  // MARK: - Persisted Properties
-
-
-  // MARK: - Dynamic properties
-
-
-  // MARK: - Meta
-
-
-  // MARK: - Etc
-
-
+    
+    // MARK: - Init
+    convenience init(user: User, message: String) {
+        self.init()
+        self.name = user.name
+        self.message = message
+    }
+    
+    // MARK: - Persisted Properties
+    dynamic var id = UUID.uuidString
+    dynamic var message = ""
+    dynamic var name = ""
+    dynamic var isFavorite = false
+    dynamic var timeStamp = Date().timeIntervalSinceReferenceDate
+    
+    // MARK: - Dynamic properties
+    var photoUrl: URL {
+        return imageURLForName(self.name)
+    }
+    
+    // MARK: - Meta
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    override class func indexedProperties() -> [String] {
+        return ["isFavorite"]
+    }
+    
+    // MARK: - Etc
+    func toggleFavorite() {
+        try? realm?.write {
+            isFavorite = !isFavorite
+        }
+    }
+    
 }
