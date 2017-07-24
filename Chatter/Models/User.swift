@@ -36,7 +36,6 @@ func imageUrlForName(_ name: String) -> URL {
 }
 
 class User: Object {
-    
     // MARK: - Init
     convenience init(name: String) {
         self.init()
@@ -53,5 +52,16 @@ class User: Object {
     }
     
     // MARK: - Etc
+    private static func createDefaultUser(in realm: Realm) -> User {
+        let me = User(name: "me")
+        try! realm.write {
+            realm.add(me)
+        }
+        return me
+    }
     
+    @discardableResult
+    static func defaultUser(in realm: Realm) -> User {
+        return realm.object(ofType: User.self, forPrimaryKey: "me") ?? createDefaultUser(in: realm)
+    }
 }

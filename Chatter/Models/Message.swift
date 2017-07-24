@@ -41,7 +41,7 @@ class Message: Object {
     }
     
     // MARK: - Persisted Properties
-    dynamic var id = UUID.uuidString
+    dynamic var id = UUID().uuidString
     dynamic var message = ""
     dynamic var name = ""
     dynamic var isFavorite = false
@@ -49,7 +49,7 @@ class Message: Object {
     
     // MARK: - Dynamic properties
     var photoUrl: URL {
-        return imageURLForName(self.name)
+        return imageUrlForName(self.name)
     }
     
     // MARK: - Meta
@@ -67,5 +67,4 @@ class Message: Object {
             isFavorite = !isFavorite
         }
     }
-    
 }
