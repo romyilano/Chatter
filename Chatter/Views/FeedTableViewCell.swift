@@ -57,6 +57,8 @@ class FeedTableViewCell: UITableViewCell {
     }
     
     @IBAction func toggleLike(_ sender: AnyObject) {
-        
+        guard let message = message else { return }
+        message.toggleFavorite()
+        likeButton.isSelected = message.isFavorite
     }
 }
