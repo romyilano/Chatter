@@ -87,14 +87,13 @@ class DataController {
         do {
             let realm = try Realm()
             let user = User.defaultUser(in: realm)
-        } catch {
-            print("\(error)")
-        }
-        
-        let new = Message(user: user, message: message)
-        do {
-            try realm.write {
-                realm.adde(new)
+            let new = Message(user: user, message: message)
+            do {
+                try realm.write {
+                    realm.add(new)
+                }
+            } catch {
+                print("\(error)")
             }
         } catch {
             print("\(error)")
