@@ -35,16 +35,19 @@ class FeedTableViewController: UITableViewController {
     
     private var dataController: DataController!
     fileprivate var messages: List<Message>!
+    private var messagesToken: NotificationToken?
     
+//MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        do {
-            let realm = try Realm()
-            User.defaultUser(in: realm)
-            messages = User.defaultUser(in: realm).messages
-        } catch {
-            print("\(error)")
+        guard let realm = try? Realm() else { return }
+  
+        User.defaultUser(in: realm)
+        messages = User.defaultUser(in: realm).messages
+        
+        messagesToken = messages.addNotificationBlock { [weak self] changes in
+            
         }
         
         dataController = DataController(api: StubbedChatterAPI())
