@@ -32,20 +32,26 @@ import Foundation
 import RealmSwift
 
 func imageUrlForName(_ name: String) -> URL {
-  return URL(string: "https://api.adorable.io/avatars/150/" + name.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)! + ".png")!
+    return URL(string: "https://api.adorable.io/avatars/150/" + name.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)! + ".png")!
 }
 
 class User: Object {
-
-  // MARK: - Init
-
-
-  // MARK: - Properties
-
-
-  // MARK: - Meta
-
-
-  // MARK: - Etc
-
+    
+    // MARK: - Init
+    convenience init(name: String) {
+        self.init()
+        self.name = name
+    }
+    
+    // MARK: - Properties
+    dynamic var name = ""
+    dynamic var sent = 0
+    
+    // MARK: - Meta
+    override static func primaryKey() -> String? {
+        return "name"
+    }
+    
+    // MARK: - Etc
+    
 }
