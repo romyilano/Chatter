@@ -47,7 +47,6 @@ class ProfileViewController: UIViewController {
             let user = User.defaultUser(in: realm)
             
             sentMessages = realm.objects(Message.self).filter("name = %@", user.name)
-            
         } catch {
             print("\(error)")
         }
