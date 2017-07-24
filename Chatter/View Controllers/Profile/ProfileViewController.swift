@@ -37,27 +37,30 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var statsLabel: UILabel!
     @IBOutlet weak var photo: UIImageView!
     
-    private var sentMessages: Results<Message>!
+    private var user: User!
+    private var userToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let realm = try? Realm() else { return }
         
-        do {
-            let realm = try Realm()
-            let user = User.defaultUser(in: realm)
-            
-            sentMessages = realm.objects(Message.self).filter("name = %@", user.name)
-        } catch {
-            print("\(error)")
+        let user = User.defaultUser(in: realm)
+        
+        userToken = user.addNotificationBlock { [weak self] change in
+            switch change {
+            case .change(let properties):
+                if let index = properties.index(where: { $0.name == "sent" }),
+                    let nr = properties[index].newValue as? Int {
+                    self?.updateUI(messageCount: nr)
+                }
+            default: break
+            }
         }
         
         photo.kf.setImage(with: imageUrlForName("me"))
+        updateUI(messageCount: user.sent)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        updateUI(messageCount: sentMessages.count)
-    }
+
     
     private func updateUI(messageCount: Int) {
         statsLabel.text = "\(messageCount) sent messages"
