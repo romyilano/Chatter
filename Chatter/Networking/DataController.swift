@@ -53,8 +53,25 @@ class DataController {
   }
 
   @objc fileprivate func fetch() {
-    api.getMessages { jsonObjects in
 
+    api.getMessages { (jsonObjects) in
+        let newMessages = jsonObjects.map { object in
+            return Message(value: object)
+        }
+        
+        do {
+            let realm = try Realm()
+            do {
+                try realm.write {
+                    realm.add(newMessages)
+                }
+            } catch {
+                print("\(error)")
+            }
+        } catch {
+            print("\(error)")
+        }
+     
     }
   }
 

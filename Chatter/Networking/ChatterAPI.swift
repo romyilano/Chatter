@@ -44,7 +44,6 @@ protocol ChatterAPI {
 //
 // MARK: - Mock API to provide network responses in JSON format
 //
-
 class StubbedChatterAPI: ChatterAPI {
 
   func getMessages(_ completion: @escaping ([JSONObject]) -> Void) {
