@@ -32,42 +32,44 @@ import UIKit
 import RealmSwift
 
 class FeedTableViewController: UITableViewController {
-
-  private var dataController: DataController!
-  fileprivate var messages = [Message]()
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    dataController = DataController(api: StubbedChatterAPI())
-    dataController.startFetchingMessages()
-  }
-
-  @IBAction func refresh() {
-    tableView.reloadData()
-  }
-
-  deinit {
-    dataController.stopFetchingMessages()
-  }
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let compose = segue.destination as? ComposeViewController {
-      compose.dataController = dataController
+    
+    private var dataController: DataController!
+    fileprivate var messages = [Message]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        
+        dataController = DataController(api: StubbedChatterAPI())
+        dataController.startFetchingMessages()
     }
-  }
+    
+    @IBAction func refresh() {
+        tableView.reloadData()
+    }
+    
+    deinit {
+        dataController.stopFetchingMessages()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let compose = segue.destination as? ComposeViewController {
+            compose.dataController = dataController
+        }
+    }
 }
 
 //MARK: - Tableview methods
 extension FeedTableViewController {
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return messages.count
-  }
-
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.reuseIdentifier, for: indexPath) as! FeedTableViewCell
-    let message = messages[indexPath.row]
-    cell.configureWithMessage(message)
-    return cell
-  }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.reuseIdentifier, for: indexPath) as! FeedTableViewCell
+        let message = messages[indexPath.row]
+        cell.configureWithMessage(message)
+        return cell
+    }
 }
